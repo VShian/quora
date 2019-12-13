@@ -1,3 +1,4 @@
+
 """quora URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -16,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import Home
+
 urlpatterns = [
-    path('', include('app.urls')),
-    path('admin/', admin.site.urls),
+    path('', Home.as_view(), name='home'),
 ]
