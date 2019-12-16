@@ -1,27 +1,9 @@
-<html>
-<body>
+{% extends "base.html" %}
+{% block body %}
 {% if questions %}
-	{% for que in questions %}
-		<div>
-		<span>
-		upvotes: {{que.upvotes}}
-		</br>
-		downvotes: {{que.downvotes}}
-		</span>
-		<p>{{que.content}}</p>
-		</div>
-
-		{% for ans in que.answer_set.all %}
-			<div>
-			<span>
-			upvotes: {{ans.upvotes}}
-			</br>
-			downvotes: {{ans.downvotes}}
-			</span>
-			<p>{{ans.content}}</p>
-			</div>
-		{% endfor %}
+	{% for question in questions %}
+		{% include "question.html" with question=question %}
+		<br />
 	{% endfor %}
 {% endif %}
-</body>
-</html>
+{% endblock %}

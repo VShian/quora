@@ -1,0 +1,7 @@
+<div> <span>
+	[ {{answer.upvotes}} / {{answer.downvotes}} ]
+	{{answer.content}}
+	{% if answer.author == user %}
+		<a href="{% url 'answer-edit' pk=answer.pk %}">edit</a>
+	{% endif %}
+</span> </div>

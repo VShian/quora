@@ -17,8 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import Home
+from .views import * 
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
+    path('ask', CreateQuestion.as_view(), name='ask'),
+    path('question/<int:pk>/view', ViewQuestion.as_view(), name='question-view'),
+    path('question/<int:pk>/answer', CreateAnswer.as_view(), name='answer'),
+    path('answer/edit/<int:pk>', UpdateAnswer.as_view(), name='answer-edit'),
 ]

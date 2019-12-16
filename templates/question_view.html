@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block body %}
+	{% include "question.html" with question=question %}
+	{% for answer in question.answer_set.all %}
+		{% include "answer.html" with answer=answer %}
+	{% endfor %}
+	<a href="{% url 'answer' pk=question.pk %}"> Answer </a> 
+{% endblock %}
