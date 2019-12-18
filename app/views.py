@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from .models import Question, Answer
+from .models import Question, Answer, Vote
 
 class Home(TemplateView):
 	template_name = 'home.html'
@@ -28,7 +28,8 @@ class ViewQuestion(TemplateView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ViewQuestion, self).get_context_data(*args, **kwargs)
-		context['question'] = Question.objects.get(pk=self.kwargs.get('pk'))
+		pk = self.kwargs.get('pk')
+		context['question'] = Question.objects.get(pk=pk)
 		return context
 
 
@@ -37,14 +38,13 @@ class UpdateAnswer(UpdateView):
 	fields = ('content',)
 
 	def get_success_url(self):
-		pk = self.kwargs['pk']
-		question = Answer.objects.get(pk=self.kwargs.get('pk')).question
+		question = Answer.objects.get(pk=self.kwargs.get('pk')).for_question
 		success_url = reverse_lazy('question-view', kwargs={'pk':question.pk})
 		return success_url
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(UpdateAnswer, self).get_context_data(*args, **kwargs)
-		context['question'] = Answer.objects.get(pk=self.kwargs.get('pk')).question
+		context['question'] = Answer.objects.get(pk=self.kwargs.get('pk')).for_question
 		return context
 
 
@@ -59,7 +59,7 @@ class CreateAnswer(CreateView):
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
-		form.instance.question = Question.objects.get(pk=self.kwargs.get('pk'))
+		form.instance.for_question = Question.objects.get(pk=self.kwargs.get('pk'))
 		return super(CreateAnswer, self).form_valid(form)
 
 	def get_context_data(self, *args, **kwargs):

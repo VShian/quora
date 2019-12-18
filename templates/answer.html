@@ -1,7 +1,16 @@
-<div> <span>
-	[ {{answer.upvotes}} / {{answer.downvotes}} ]
-	{{answer.content}}
-	{% if answer.author == user %}
-		<a href="{% url 'answer-edit' pk=answer.pk %}">edit</a>
-	{% endif %}
-</span> </div>
+<div> 
+	<span class="votes">
+		[ 
+			<a href="#" onclick="sendVote(this, '{% url 'vote' %}', 0, {{answer.pk}})">{{answer.upvotes}}</a>
+		/
+			<a href="#" onclick="sendVote(this, '{% url 'vote' %}', 1, {{answer.pk}})">{{answer.downvotes}}</a>
+		]
+	</span> 
+
+	<span>
+		{{answer.content}}
+		{% if answer.author == user %}
+			<a href="{% url 'answer-edit' pk=answer.pk %}">edit</a>
+		{% endif %}
+	</span>
+</div>

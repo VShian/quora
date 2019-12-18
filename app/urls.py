@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import * 
+from .views import *
+from .api import *
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('question/<int:pk>/view', ViewQuestion.as_view(), name='question-view'),
     path('question/<int:pk>/answer', CreateAnswer.as_view(), name='answer'),
     path('answer/edit/<int:pk>', UpdateAnswer.as_view(), name='answer-edit'),
+    path('vote', VoteAPI.as_view(), name='vote')
 ]
