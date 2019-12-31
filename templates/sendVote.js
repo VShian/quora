@@ -1,5 +1,3 @@
-{% block script %}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 <script>
 	function sendVote(ele, url, vote_type, reply_id) {
 		var csrf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
@@ -14,16 +12,14 @@
 			contentType:"application/json; charset=utf-8",
 			dataType:"json",
 			success: function (data){
-				console.log(data);
 				parent = ele.parentElement;
-				parent.children[0].text = data.upvote_count; 
-				parent.children[1].text = data.downvote_count; 
+				votesCountElement = parent.getElementsByClassName('votes')[0]; 
+				votesCountElement.textContent = data.vote_count;
 			},
 			error: function (data){
-				console.log(data);
+				alert("Some error occured. Please reload the page and try again!");
 			}
 		});
 		return false;
 	}
 </script>
-{% endblock %}

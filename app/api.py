@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from django.contrib.auth.models import User
 
-from app.models import Answer, Vote
+from app.models import Answer, Vote, Reply
 
 
 class VoteAPI(APIView):
@@ -25,9 +25,7 @@ class VoteAPI(APIView):
 			if other_vote.exists():
 				other_vote.delete()
 
-			return Response(data={
-				'message': "Success",
-				'upvote_count': Vote.objects.filter(reply_id=reply_id, vote_type=Vote.UPVOTE).count(),
-				'downvote_count': Vote.objects.filter(reply_id=reply_id, vote_type=Vote.DOWNVOTE).count()}) 
 		else:
-			return Response("You can only vote once", status='418')
+			obj.delete()
+
+		return Response(data={'vote_count': Reply.objects.get(id=reply_id).upvotes()}) 

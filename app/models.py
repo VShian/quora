@@ -5,8 +5,11 @@ from django.contrib.auth.models import User
 
 class Base(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True, blank=False)
+	updated_at = models.DateTimeField(null=True, blank=False)
 
+	def __str__(self):
+		return self.content
 
 class Question(Base):
 	content = models.CharField(max_length=3000)
@@ -20,6 +23,9 @@ class Reply(Base):
 
 	def downvotes(self):
 		return self.vote_set.filter(vote_type=Vote.DOWNVOTE).count()
+
+	def votes(self):
+		return self.upvotes() - self.downvotes()
 
 
 class Answer(Reply):

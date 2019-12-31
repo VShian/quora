@@ -16,15 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 
 from .views import *
 from .api import *
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    path('ask', CreateQuestion.as_view(), name='ask'),
-    path('question/<int:pk>/view', ViewQuestion.as_view(), name='question-view'),
-    path('question/<int:pk>/answer', CreateAnswer.as_view(), name='answer'),
-    path('answer/edit/<int:pk>', UpdateAnswer.as_view(), name='answer-edit'),
-    path('vote', VoteAPI.as_view(), name='vote')
+    path('ask/', login_required(CreateQuestion.as_view()), name='ask'),
+    path('question/<int:pk>/view/', ViewQuestion.as_view(), name='question-view'),
+    path('question/<int:pk>/edit/', login_required(UpdateQuestion.as_view()), name='question-edit'),
+    path('question/<int:pk>/delete/', login_required(DeleteQuestion.as_view()), name='question-delete'),
+    path('question/<int:pk>/answer/', login_required(CreateAnswer.as_view()), name='answer'),
+    path('answer/<int:pk>/edit/', login_required(UpdateAnswer.as_view()), name='answer-edit'),
+    path('answer/<int:pk>/delete/', login_required(DeleteAnswer.as_view()), name='answer-delete'),
+    path('answer/<int:pk>/comment/', login_required(CreateComment.as_view()), name='comment'),
+    path('comment/<int:pk>/edit/', login_required(UpdateComment.as_view()), name='comment-edit'),
+    path('comment/<int:pk>/delete/', login_required(DeleteComment.as_view()), name='comment-delete'),
+    path('vote/', VoteAPI.as_view(), name='vote'),
+    path('search/', Search.as_view(), name='search')
 ]

@@ -1,5 +1,51 @@
-<div>
-    <span>
-        <a href="{% url 'question-view' pk=question.pk %}"><b>{{question.content}}</b></a>
-    </span>
+<div class="card bg-light mb-3">
+    <div class="card-header">
+		<div class="row">
+            <div class="col-1 my-auto">
+                <a href="{% url 'anon-profile' username=question.author.username %}">
+					<i class="material-icons">account_circle</i>
+                </a>
+            </div>
+            <div class="col-10">
+                <a  href="{% url 'anon-profile' username=question.author.username %}">
+                    {{ question.author.first_name }}<br>
+                    <span><small>
+                        {% if question.updated_at %}
+                            Last updated at {{ question.updated_at }}
+                        {% else %}
+                            Asked at {{ question.created_at }}
+                        {% endif %}
+                    </small></span>
+                </a>
+            </div>
+            <div class="col-1 my-auto">
+                {% if question.author == user %}
+                    <div class="dropdown show">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                    
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'question-edit' pk=question.pk%}">Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'question-delete' pk=question.pk %}">Delete</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+		</div>
+	</div>
+    
+        <a href="{% if link == False %}#{% else %}{% url 'question-view' pk=question.pk %}{% endif %}"> 
+    
+    <div class="card-body">
+        <h5 class="card-title">{{question.content}}</h5>
+    </div>
+        </a>
+    
+    <a href="{% url 'answer' pk=question.pk %}">
+        <div class="card-footer btn btn-light btn-block">
+            Answer
+        </div>
+    </a>
 </div>

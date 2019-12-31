@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+{% if results %}
+	<h4>Found {{results.count}} result{{ results|pluralize }}:</h4>
+	<br>
+	{% for question in results %}
+		{% include "question.html" with question=question%}
+    {% endfor %}
+{% else %}
+    <h4>No results found! Please try again by modifying the query.</h4>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+	{% include "sendVote.js" %}
+{% endblock %}

@@ -1,16 +1,68 @@
-<div> 
-	<span class="votes">
-		[ 
-			<a href="#" onclick="sendVote(this, '{% url 'vote' %}', 0, {{answer.pk}})">{{answer.upvotes}}</a>
-		/
-			<a href="#" onclick="sendVote(this, '{% url 'vote' %}', 1, {{answer.pk}})">{{answer.downvotes}}</a>
-		]
-	</span> 
-
-	<span>
-		{{answer.content}}
-		{% if answer.author == user %}
-			<a href="{% url 'answer-edit' pk=answer.pk %}">edit</a>
-		{% endif %}
-	</span>
+<div class="card border-secondary mb-3">
+	<div class="card-header">
+		<div class="row">
+			<div class="col-1">
+				<a href="{% url 'anon-profile' username=answer.author.username %}">
+					<i class="material-icons">account_circle</i>
+				</a>
+			</div>
+			<div class="col-10">
+                <a  href="{% url 'anon-profile' username=answer.author.username %}">
+                    {{ answer.author.first_name }}<br>
+                    <span><small>
+                        {% if answer.updated_at %}
+                            Last updated at {{ answer.updated_at }}
+                        {% else %}
+                            Answered at {{ answer.created_at }}
+                        {% endif %}
+                    </small></span>
+                </a>
+			</div>
+			<div class="col-1 my-auto">
+                {% if answer.author == user %}
+                    <div class="dropdown show">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                    
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" href="{% url 'answer-edit' pk=answer.pk%}">Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'answer-delete' pk=answer.pk %}">Delete</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+		</div>
+	</div>
+    <div class="card-body">
+		<span class="card-text">{{answer.content}}</span>
+	</div>
+	<div class="card-footer">
+		<div class="container">
+			<div class="row">
+				<div role="group">
+					{% if user.is_authenticated %}
+						<button type="button" class="btn btn-secondary" onclick="sendVote(this, '{% url 'vote' %}', 0, {{answer.pk}})">
+							Upvote <span class="votes badge badge-light">{{answer.upvotes}}</span>
+						</button>
+						<button type="button" class="btn btn-secondary" onclick="sendVote(this, '{% url 'vote' %}', 1, {{answer.pk}})">
+							Downvote
+						</button>
+						<a href="{% url 'comment' pk=answer.pk %}" type="button" class="btn btn-secondary">
+							Comment
+						</a>
+					{% else %}
+					<a class="btn btn-secondary my-auto disabled">
+						Upvotes <span class="badge badge-pill badge-light">{{answer.upvotes}}</span>
+                    </a>
+					{% endif %}
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#comments-{{answer.pk}}">Show Comments</button>
+				</div>
+				<!-- <div class="col-1 col-sm-0"></div> -->
+			</div>
+		</div>
+	</div>
 </div>
+
+{% include "comments.html" with answer=answer %}

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
+
 {% block body %}
-{% if questions %}
-	{% for question in questions %}
-		{% include "question.html" with question=question %}
-		<br />
-	{% endfor %}
-{% endif %}
+	{% if questions %}
+		{% for question in questions %}
+			{% include "question.html" with question=question%}
+		{% endfor %}
+	{% endif %}
 {% endblock %}
 
 {% block script %}

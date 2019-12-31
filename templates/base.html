@@ -1,11 +1,94 @@
 <html>
 <head>
-	{% include "navbar.html" %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<style>
+		.card {
+			margin: 0 auto; /* Added */
+			width: 100%;
+			float: none; /* Added */
+			margin-bottom: 10px; /* Added */
+			padding-left: 2px;
+			padding-right: 2px;
+		}
+		@font-face {
+			font-family: 'Material Icons';
+			font-style: normal;
+			font-weight: 400;
+			src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+			src: local('Material Icons'),
+				local('MaterialIcons-Regular'),
+				url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+				url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+				url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+		}
+		.material-icons {
+			font-family: 'Material Icons';
+			font-weight: normal;
+			font-style: normal;
+			font-size: 24px;  /* Preferred icon size */
+			display: inline-block;
+			line-height: 1;
+			text-transform: none;
+			letter-spacing: normal;
+			word-wrap: normal;
+			white-space: nowrap;
+			direction: ltr;
+
+			/* Support for all WebKit browsers. */
+			-webkit-font-smoothing: antialiased;
+			/* Support for Safari and Chrome. */
+			text-rendering: optimizeLegibility;
+
+			/* Support for Firefox. */
+			-moz-osx-font-smoothing: grayscale;
+
+			/* Support for IE. */
+			font-feature-settings: 'liga';
+		}
+		.card a, .card a:hover {
+			color: #212529;
+			text-decoration: none;
+		}
+		a.btn, a.btn:hover {
+			color: white;
+		}
+	</style>
 </head>
 <body>
-	{% block body %}
-	{% endblock %}
+	{% include "navbar.html" %}
+	<br>
+	<div class="container">
+		<div class="row justify-content-center">
+			{% block messages %}
+				{% if messages %}
+					{% for message in messages %}
+					<p class="alert alert-dismissable {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ message }}
+					</p>
+					{% endfor %}
+				{% endif %}
+			{% endblock %}
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				{% block sidebar %}
+				{% endblock %}
+			</div>
 
+		<!-- <div class="row justify-content-center"> -->
+			<div class="col-sm-12 col-md-10 col-lg-8">
+				{% block body %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+	
 	{% block script %}
 	{% endblock %}
 </body>

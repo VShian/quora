@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+<div class="nav flex-md-column flex-row nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+    <a class="nav-link" id="v-pills-questions-tab" data-toggle="pill" href="#v-pills-questions" role="tab" aria-controls="v-pills-questions" aria-selected="false">Questions</a>
+    <a class="nav-link" id="v-pills-answers-tab" data-toggle="pill" href="#v-pills-answers" role="tab" aria-controls="v-pills-answerws" aria-selected="false">Answers</a>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <p>{{anon_user.username}}</p>
+        <p>{{anon_user.first_name}}</p>
+        <p>{{anon_user.last_name}}</p>
+        <p>{{anon_user.email}}</p>
+    </div>
+
+    <div class="tab-pane fade" id="v-pills-questions" role="tabpanel" aria-labelledby="v-pills-questions-tab">
+        {% if questions %}
+            {% for question in questions %}
+                {% include "question.html" with question=question%}
+            {% endfor %}
+        {% else %}
+            <h4>You haven't asked any questions yet</h4>
+        {% endif %}
+    </div>
+
+    <div class="tab-pane fade" id="v-pills-answers" role="tabpanel" aria-labelledby="v-pills-answers-tab">
+        {% if answers %}
+            {% for answer in answers %}
+                <div class="card-group flex-column">
+                    {% include "question.html" with question=answer.for_question %}
+                    {% include "answer.html" with answer=answer %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <h4>You haven't answered any questions yet</h4>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+	{% include "sendVote.js" %}
+{% endblock %}

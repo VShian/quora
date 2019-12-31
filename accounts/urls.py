@@ -1,3 +1,4 @@
+
 """quora URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
+
+from .views import CreateUser, Profile, AnonProfile, PasswordChange, UpdateProfile
 
 urlpatterns = [
-    path('', include('app.urls')),
-    path('', include('accounts.urls')),
-    path('', include('django.contrib.auth.urls')),
-    path('admin/', admin.site.urls)
+    path('signup/', CreateUser.as_view(), name='signup'),
+    path('profile/update/', login_required(UpdateProfile.as_view()), name='profile-update'),
+    path('profile/', login_required(Profile.as_view()), name='profile'),
+    path('profile/user/<username>/', AnonProfile.as_view(), name='anon-profile'),
+    path('password_change/', PasswordChange.as_view(), name='password-change')
 ]

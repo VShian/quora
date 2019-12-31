@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
 	{% csrf_token %}
-	{% include "question.html" with question=question %}
+	<br>
+	{% include "question.html" with question=question link=False %}
 	{% for answer in question.answer_set.all %}
-		{% include "answer.html" with answer=answer %}
+			{% include "answer.html" with answer=answer %}
 	{% endfor %}
-	<a href="{% url 'answer' pk=question.pk %}"> Answer </a> 
 {% endblock %}
 {% block script %}
 	{% include "sendVote.js" %}

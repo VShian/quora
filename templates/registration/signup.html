@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+    {% include 'form.html' %}
+
+    {% if not login_link == False %}
+        <div>
+            <p>Already a user? <a href="{% url 'login' %}">Log In</a></p>
+        </div>
+    {% endif %}
+{% endblock %}
